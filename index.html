@@ -1,252 +1,340 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baranidharan S | AI & Data Science Student</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Message for You ❤️</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:20px;font-family:Arial,sans-serif;color:#fff4fa;
+  background:radial-gradient(ellipse at top,#51203f,transparent 60%),
+  linear-gradient(145deg,#100b18,#291326,#100b18);
+  overflow-x:hidden
+}
+.container,.modal-content{
+  width:100%;max-width:480px;text-align:center;padding:30px 24px;
+  border:1px solid #ffffff30;border-radius:25px;
+  background:#ffffff0c;backdrop-filter:blur(15px);
+  box-shadow:0 15px 60px #0005
+}
+h1{font-size:clamp(30px,7vw,42px);margin:16px 0;color:#ffb1d1}
+h2{font-size:27px;margin:14px 0;color:#ffb1d1}
+p{font-size:15px;line-height:1.8;color:#e2cbd9;margin:15px 0 22px}
+.eyebrow{letter-spacing:4px;font-size:12px;color:#ffb1d1}
+.big-heart{font-size:55px;animation:pulse 1.5s infinite}
+@keyframes pulse{50%{transform:scale(1.12)}}
+button{font:inherit;cursor:pointer;border:0;border-radius:30px;
+  padding:14px 20px;transition:.2s}
+button:hover{transform:translateY(-2px)}
+.primary,.yes{background:linear-gradient(100deg,#ffc0dc,#ff68a6);color:#351024}
+.primary{font-weight:bold}
+.choices{display:grid;gap:12px}
+.choice{width:100%;font-weight:bold}
+.time{background:#ffffff12;color:white;border:1px solid #ffffff30}
+.no{background:transparent;color:#eee;border:1px solid #ffffff30}
+.music-toggle{
+ position:fixed;right:14px;top:14px;z-index:20;
+ background:#ffffff16;color:white;border:1px solid #ffffff35;
+ padding:10px 14px
+}
+.status{font-size:12px;color:#e0bbd0;margin-top:14px;line-height:1.5}
+.modal{
+ display:none;position:fixed;inset:0;z-index:10;padding:18px;
+ align-items:center;justify-content:center;background:#08040de0;
+ backdrop-filter:blur(10px)
+}
+.modal.show{display:flex;animation:fade .3s}
+.modal-content{background:linear-gradient(145deg,#321a31,#171020);
+ animation:pop .3s;max-height:88vh;overflow:auto}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{transform:scale(.9)}to{transform:scale(1)}}
+.heart{
+ position:fixed;bottom:-30px;z-index:0;pointer-events:none;
+ animation:float 9s linear infinite;color:#ff8cba
+}
+@keyframes float{
+ 0%{transform:translateY(0);opacity:0}
+ 15%{opacity:.55}
+ 85%{opacity:.35}
+ 100%{transform:translateY(-110vh);opacity:0}
+}
+.small{font-size:12px;color:#c6afbf}
+</style>
 </head>
+
 <body>
 
-    <header class="navbar">
-        <div class="logo">BS<span>.</span></div>
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#skills">Skills</a>
-            <a href="#projects">Projects</a>
-            <a href="#achievements">Achievements</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </header>
+<button class="music-toggle" id="musicToggle">🎵 Music: On</button>
 
-    <main>
-        <section id="home" class="hero">
-            <div class="hero-content">
-                <p class="eyebrow">HELLO, I'M</p>
-                <h1>Baranidharan <span>S</span></h1>
-                <h2>AI &amp; Data Science Student</h2>
-                <p class="intro">
-                    B.Tech Artificial Intelligence and Data Science student passionate about
-                    building practical digital solutions through frontend development,
-                    Python, SQL and data analysis.
-                </p>
+<main class="container">
+  <div class="big-heart">💌</div>
+  <div class="eyebrow">A LITTLE MESSAGE FOR YOU</div>
+  <h1>Someone Has Something to Say...</h1>
+  <p>
+    Sometimes a few words can mean a lot.
+    I made this little page to tell you something honestly.
+    Open it whenever you're ready. ❤️
+  </p>
+  <button class="primary" id="beginButton">Open My Message 💗</button>
+  <div class="status" id="musicStatus">Tap to begin with music 🎵</div>
+</main>
 
-                <div class="hero-buttons">
-                    <a href="#projects" class="btn primary">View My Work</a>
-                    <a href="#contact" class="btn secondary">Let's Connect</a>
-                </div>
+<section class="modal" id="introModal">
+ <div class="modal-content">
+  <div class="big-heart">💌</div>
+  <h2>Hey, You!</h2>
+  <p>
+    I've wanted to tell you something for a little while.
+    This is a small message from me to you.
+    Take your time reading it. ✨
+  </p>
+  <button class="primary" id="continueButton">Read My Message ❤️</button>
+ </div>
+</section>
 
-                <div class="quick-links">
-                    <a href="https://github.com/barani001" target="_blank">GitHub</a>
-                    <span>•</span>
-                    <a href="https://www.linkedin.com/in/baranidharans001/" target="_blank">LinkedIn</a>
-                    <span>•</span>
-                    <a href="mailto:baranidharansundharam@gmail.com">Email</a>
-                </div>
-            </div>
+<section class="modal" id="proposalModal">
+ <div class="modal-content">
+  <div class="big-heart">💖</div>
+  <h2>Can I Tell You Something?</h2>
+  <p>
+    I really like you. Talking to you makes my day a little brighter,
+    and I'd like to get to know you better.
+  </p>
+  <p>Will you be mine?❤️</p>
+  <div class="choices">
+   <button class="choice yes" id="yesButton">Yes ❤️</button>
+   <button class="choice time" id="timeButton">I Need Time 🌙</button>
+   <button class="choice no" id="noButton">Not Right Now 🤍</button>
+  </div>
+  <p class="small">Any answer is okay. There's no pressure.</p>
+ </div>
+</section>
 
-            <div class="hero-photo">
-                <div class="photo-ring">
-                    <img src="BARANI.png" alt="Baranidharan S">
-                </div>
-                <div class="photo-label">
-                    <strong>2025 — 2029</strong>
-                    <span>B.Tech • AI &amp; DS</span>
-                </div>
-            </div>
-        </section>
+<section class="modal" id="resultModal">
+ <div class="modal-content">
+  <div class="big-heart" id="resultIcon">💗</div>
+  <h2 id="resultTitle">Thank You</h2>
+  <p id="resultMessage"></p>
+  <button class="primary" id="closeButton">Close 💌</button>
+  <div class="status" id="saveStatus"></div>
+ </div>
+</section>
 
-        <section id="about" class="section about">
-            <div class="section-heading">
-                <p>01 — ABOUT ME</p>
-                <h2>Turning ideas into <span>useful solutions.</span></h2>
-            </div>
+<audio id="bgMusic" src="background.mp3" loop preload="none"></audio>
+<audio id="yesMusic" src="yes-song.mp3" preload="none"></audio>
+<audio id="timeMusic" src="need-time.mp3" preload="none"></audio>
 
-            <div class="about-grid">
-                <div class="about-text">
-                    <p>
-                        I am Baranidharan S, an Artificial Intelligence and Data Science
-                        student at JCT College of Engineering and Technology, Coimbatore.
-                    </p>
-                    <p>
-                        I enjoy exploring technology through real-world projects, especially
-                        in frontend development, data analysis and intelligent systems.
-                        My goal is to continuously learn, build and contribute to meaningful
-                        technology solutions.
-                    </p>
-                </div>
+<script type="module">
+import { initializeApp }
+ from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
 
-                <div class="info-card">
-                    <div>
-                        <small>COLLEGE</small>
-                        <strong>JCT College of Engineering and Technology</strong>
-                    </div>
-                    <div>
-                        <small>DEGREE</small>
-                        <strong>B.Tech — Artificial Intelligence &amp; Data Science</strong>
-                    </div>
-                    <div>
-                        <small>LOCATION</small>
-                        <strong>Coimbatore, Tamil Nadu</strong>
-                    </div>
-                </div>
-            </div>
-        </section>
+import {
+ getDatabase, ref, push, set
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
 
-        <section id="skills" class="section">
-            <div class="section-heading">
-                <p>02 — SKILLS</p>
-                <h2>What I <span>work with.</span></h2>
-            </div>
+import {
+ getAuth, signInAnonymously
+} from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
-            <div class="skills-grid">
-                <article class="skill-card">
-                    <div class="skill-number">01</div>
-                    <h3>Frontend Development</h3>
-                    <p>Creating clean, responsive and user-friendly web interfaces.</p>
-                    <div class="tags"><span>HTML</span><span>CSS</span></div>
-                </article>
+// Use the configuration copied from your Firebase web app.
+const firebaseConfig = {
+ apiKey: "AIzaSyCv8n56l9zQ7BUGOjvTpEpJAbZKrKfN8",
+ authDomain: "bvmine.firebaseapp.com",
+ databaseURL: "https://bvmine-default-rtdb.firebaseio.com",
+ projectId: "bvmine",
+ storageBucket: "bvmine.firebasestorage.app",
+ messagingSenderId: "975340242441",
+ appId: "1:975340242441:web:17f855e85c4e762d24dad8",
+ measurementId: "G-S7CMZ5EG6W"
+};
 
-                <article class="skill-card">
-                    <div class="skill-number">02</div>
-                    <h3>Python</h3>
-                    <p>Using Python for programming, data handling and problem solving.</p>
-                    <div class="tags"><span>Python</span><span>Logic</span></div>
-                </article>
+let app, db, auth;
+let firebaseReady = false;
 
-                <article class="skill-card">
-                    <div class="skill-number">03</div>
-                    <h3>SQL</h3>
-                    <p>Working with structured data, queries and database concepts.</p>
-                    <div class="tags"><span>SQL</span><span>Database</span></div>
-                </article>
+try {
+ app = initializeApp(firebaseConfig);
+ db = getDatabase(app);
+ auth = getAuth(app);
+ firebaseReady = true;
+} catch (error) {
+ console.error("Firebase initialization failed:", error);
+}
 
-                <article class="skill-card">
-                    <div class="skill-number">04</div>
-                    <h3>Data Analysis</h3>
-                    <p>Exploring data to identify patterns, insights and useful information.</p>
-                    <div class="tags"><span>Analysis</span><span>Insights</span></div>
-                </article>
-            </div>
-        </section>
+const $ = id => document.getElementById(id);
+const bgMusic = $("bgMusic");
+const yesMusic = $("yesMusic");
+const timeMusic = $("timeMusic");
+const allAudio = [bgMusic, yesMusic, timeMusic];
 
-        <section id="projects" class="section projects">
-            <div class="section-heading">
-                <p>03 — PROJECTS</p>
-                <h2>Things I've <span>worked on.</span></h2>
-            </div>
+let musicEnabled = true;
+let currentTrack = "background";
+let saving = false;
 
-            <div class="project-list">
-                <article class="project-card">
-                    <div class="project-index">01</div>
-                    <div class="project-content">
-                        <p class="project-type">AGRICULTURE • DIGITAL PLATFORM</p>
-                        <h3>Strengthening Market Linkages and Price Discovery for Farmers</h3>
-                        <p>
-                            A technology-focused solution aimed at helping farmers improve
-                            market access, understand prices and make better selling decisions.
-                        </p>
-                        <div class="tags"><span>Market Intelligence</span><span>AI</span><span>Web</span></div>
-                    </div>
-                </article>
+function showModal(id) {
+ $(id).classList.add("show");
+}
+function hideModal(id) {
+ $(id).classList.remove("show");
+}
 
-                <article class="project-card">
-                    <div class="project-index">02</div>
-                    <div class="project-content">
-                        <p class="project-type">AI • STANDARDS • BIS</p>
-                        <h3>AI-powered Intelligent Assistant for Indian Standards and BIS Services</h3>
-                        <p>
-                            An intelligent assistant concept designed to help industries and
-                            consumers access information about Indian Standards and BIS services.
-                        </p>
-                        <div class="tags"><span>AI</span><span>Assistant</span><span>BIS</span></div>
-                    </div>
-                </article>
+function stopMusic() {
+ allAudio.forEach(audio => {
+  audio.pause();
+  audio.currentTime = 0;
+ });
+}
 
-                <article class="project-card">
-                    <div class="project-index">03</div>
-                    <div class="project-content">
-                        <p class="project-type">AGRICULTURE • LAND SURVEY</p>
-                        <h3>Survey / Resurvey of Rural Agricultural Land in India</h3>
-                        <p>
-                            A project concept focused on improving the survey and resurvey
-                            process for rural agricultural land through digital approaches.
-                        </p>
-                        <div class="tags"><span>Digital Solutions</span><span>Data</span><span>Agriculture</span></div>
-                    </div>
-                </article>
-            </div>
-        </section>
+async function playTrack(track) {
+ currentTrack = track;
+ stopMusic();
 
-        <section id="achievements" class="section">
-            <div class="section-heading">
-                <p>04 — ACHIEVEMENTS</p>
-                <h2>Learning by <span>building.</span></h2>
-            </div>
+ if (!musicEnabled) {
+  $("musicStatus").textContent = "Music is turned off.";
+  return;
+ }
 
-            <div class="achievement-grid">
-                <article class="achievement-card">
-                    <div class="achievement-icon">01</div>
-                    <div>
-                        <h3>Frontend Web Development Hackathon 2026</h3>
-                        <p>SkillValix</p>
-                        <span>Participation Certification</span>
-                    </div>
-                </article>
+ const audio = track === "yes" ? yesMusic
+  : track === "time" ? timeMusic : bgMusic;
 
-                <article class="achievement-card">
-                    <div class="achievement-icon">02</div>
-                    <div>
-                        <h3>Cyber Kushti — Cyber Security &amp; AI Hackathon 2026</h3>
-                        <p>Hackathon Participation</p>
-                        <span>Participation Certificate</span>
-                    </div>
-                </article>
-            </div>
-        </section>
+ const names = {
+  background: "Munbe Vaa - Instrumental",
+  yes: "Katchi Sera",
+  time: "Nenjukkul Peidhidum"
+ };
 
-        <section id="education" class="section education">
-            <div class="section-heading">
-                <p>05 — EDUCATION</p>
-                <h2>My academic <span>journey.</span></h2>
-            </div>
+ try {
+  await audio.play();
+  $("musicStatus").textContent = "🎵 Playing: " + names[track];
+ } catch (error) {
+  console.warn("Audio playback failed:", error);
+  $("musicStatus").textContent =
+   "Audio couldn't play. Check the MP3 filename and music folder.";
+ }
+}
 
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-year">2025 — 2029</div>
-                    <div>
-                        <h3>B.Tech — Artificial Intelligence and Data Science</h3>
-                        <p>JCT College of Engineering and Technology, Coimbatore</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+// Floating hearts
+for (let i = 0; i < 18; i++) {
+ const heart = document.createElement("div");
+ heart.className = "heart";
+ heart.textContent = ["♡","♥","💕","✧"][i % 4];
+ heart.style.left = Math.random() * 100 + "%";
+ heart.style.fontSize = (14 + Math.random() * 18) + "px";
+ heart.style.animationDelay = Math.random() * 9 + "s";
+ heart.style.animationDuration = (7 + Math.random() * 6) + "s";
+ document.body.appendChild(heart);
+}
 
-        <section id="contact" class="contact-section">
-            <div class="contact-inner">
-                <p class="eyebrow">06 — CONTACT</p>
-                <h2>Let's build something <span>meaningful.</span></h2>
-                <p>
-                    Have an idea, project or opportunity? Feel free to reach out.
-                </p>
+$("beginButton").addEventListener("click", async () => {
+ await playTrack("background");
+ showModal("introModal");
+});
 
-                <div class="contact-actions">
-                    <a class="btn primary" href="mailto:baranidharansundharam@gmail.com">Send Me an Email</a>
-                    <a class="btn secondary" href="https://www.linkedin.com/in/baranidharans001/" target="_blank">LinkedIn</a>
-                    <a class="btn secondary" href="https://github.com/barani001" target="_blank">GitHub</a>
-                </div>
+$("continueButton").addEventListener("click", () => {
+ hideModal("introModal");
+ showModal("proposalModal");
+});
 
-                <div class="email">baranidharansundharam@gmail.com</div>
-            </div>
-        </section>
-    </main>
+$("musicToggle").addEventListener("click", async () => {
+ musicEnabled = !musicEnabled;
+ $("musicToggle").textContent =
+  musicEnabled ? "🎵 Music: On" : "🎵 Music: Off";
 
-    <footer>
-          <center><p>All rights are reserved ! © | Baranidharan S </p></center>
-        <a href="#home">Back to top ↑</a>
-    </footer>
+ if (musicEnabled) {
+  await playTrack(currentTrack);
+ } else {
+  stopMusic();
+  $("musicStatus").textContent = "Music is turned off.";
+ }
+});
 
+async function saveResponse(answer) {
+ if (!firebaseReady) {
+  console.error("Firebase has not initialized.");
+  return false;
+ }
+
+ try {
+  const result = await signInAnonymously(auth);
+  const responseRef = push(ref(db, "proposalResponses"));
+
+  await set(responseRef, {
+   answer,
+   timestamp: Date.now(),
+   userId: result.user.uid
+  });
+
+  return true;
+ } catch (error) {
+  console.error("Firebase save failed:", error);
+  $("saveStatus").textContent =
+   "Firebase save failed: " + error.code;
+  return false;
+ }
+}
+
+async function respond(answer) {
+ if (saving) return;
+ saving = true;
+
+ const messages = {
+  yes: {
+   icon: "❤️",
+   title: "You Made Me Happy!",
+   message: "Thank you for sharing your answer. Let's take things one step at a time. 💖"
+  },
+  need_time: {
+   icon: "🌙",
+   title: "Take Your Time",
+   message: "That's completely okay. There's no rush or pressure. Take all the time you need. 🤍"
+  },
+  no: {
+   icon: "🤍",
+   title: "Thank You for Being Honest",
+   message: "That's okay. I respect your feelings and won't pressure you. Take care. 🤍"
+  }
+ };
+
+ const selected = messages[answer];
+ $("resultIcon").textContent = selected.icon;
+ $("resultTitle").textContent = selected.title;
+ $("resultMessage").textContent = selected.message;
+
+ hideModal("proposalModal");
+ showModal("resultModal");
+ $("saveStatus").textContent = "";
+
+ if (answer === "yes") {
+  await playTrack("yes");
+ } else if (answer === "need_time") {
+  await playTrack("time");
+ } else {
+  stopMusic();
+ }
+
+ if (answer !== "no") {
+  $("saveStatus").textContent = "Saving response...";
+  const saved = await saveResponse(answer);
+  if (saved) {
+   $("saveStatus").textContent = "Response saved successfully.";
+  } else {
+   $("saveStatus").textContent =
+    "Couldn't save the response. Check Firebase settings and Console.";
+  }
+ }
+
+ saving = false;
+}
+
+$("yesButton").addEventListener("click", () => respond("yes"));
+$("timeButton").addEventListener("click", () => respond("need_time"));
+$("noButton").addEventListener("click", () => respond("no"));
+
+$("closeButton").addEventListener("click", () => {
+ hideModal("resultModal");
+});
+</script>
 </body>
 </html>
