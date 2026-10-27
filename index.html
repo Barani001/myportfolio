@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -104,11 +105,14 @@ button:hover{transform:translateY(-2px)}
     and I'd like to get to know you better.
   </p>
   <p>Will you be mine?❤️</p>
+
   <div class="choices">
    <button class="choice yes" id="yesButton">Yes ❤️</button>
    <button class="choice time" id="timeButton">I Need Time 🌙</button>
-   <button class="choice no" id="noButton">Not Right Now 🤍</button>
+   <button class="choice no" id="noButton">Not Interested in You 🤍</button>
+   <button class="choice no" id="loveNoButton">Not Interested in Love 💔</button>
   </div>
+
   <p class="small">Any answer is okay. There's no pressure.</p>
  </div>
 </section>
@@ -139,16 +143,16 @@ import {
  getAuth, signInAnonymously
 } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
-// Use the configuration copied from your Firebase web app.
+// Firebase configuration
 const firebaseConfig = {
  apiKey: "AIzaSyCNyC2QV9Vivw4AIwgpfbnzEtITAPt065E",
-  authDomain: "bvmine.firebaseapp.com",
-  databaseURL: "https://bvmine-default-rtdb.firebaseio.com",
-  projectId: "bvmine",
-  storageBucket: "bvmine.firebasestorage.app",
-  messagingSenderId: "975340242441",
-  appId: "1:975340242441:web:49992524e7ce3ce724dad8",
-  measurementId: "G-TV98NVKG70"
+ authDomain: "bvmine.firebaseapp.com",
+ databaseURL: "https://bvmine-default-rtdb.firebaseio.com",
+ projectId: "bvmine",
+ storageBucket: "bvmine.firebasestorage.app",
+ messagingSenderId: "975340242441",
+ appId: "1:975340242441:web:49992524e7ce3ce724dad8",
+ measurementId: "G-TV98NVKG70"
 };
 
 let app, db, auth;
@@ -164,6 +168,7 @@ try {
 }
 
 const $ = id => document.getElementById(id);
+
 const bgMusic = $("bgMusic");
 const yesMusic = $("yesMusic");
 const timeMusic = $("timeMusic");
@@ -176,6 +181,7 @@ let saving = false;
 function showModal(id) {
  $(id).classList.add("show");
 }
+
 function hideModal(id) {
  $(id).classList.remove("show");
 }
@@ -227,18 +233,22 @@ for (let i = 0; i < 18; i++) {
  document.body.appendChild(heart);
 }
 
+// Start message
 $("beginButton").addEventListener("click", async () => {
  await playTrack("background");
  showModal("introModal");
 });
 
+// Open proposal
 $("continueButton").addEventListener("click", () => {
  hideModal("introModal");
  showModal("proposalModal");
 });
 
+// Music toggle
 $("musicToggle").addEventListener("click", async () => {
  musicEnabled = !musicEnabled;
+
  $("musicToggle").textContent =
   musicEnabled ? "🎵 Music: On" : "🎵 Music: Off";
 
@@ -250,31 +260,44 @@ $("musicToggle").addEventListener("click", async () => {
  }
 });
 
+// Save every response to Firebase
 async function saveResponse(answer) {
  if (!firebaseReady) {
+  $("saveStatus").textContent = "Firebase initialization failed.";
   console.error("Firebase has not initialized.");
   return false;
  }
 
  try {
-  const result = await signInAnonymously(auth);
+  let user = auth.currentUser;
+
+  if (!user) {
+   const result = await signInAnonymously(auth);
+   user = result.user;
+  }
+
   const responseRef = push(ref(db, "proposalResponses"));
 
   await set(responseRef, {
-   answer,
+   answer: answer,
    timestamp: Date.now(),
-   userId: result.user.uid
+   userId: user.uid
   });
 
+  console.log("Response saved successfully:", answer);
   return true;
+
  } catch (error) {
   console.error("Firebase save failed:", error);
+
   $("saveStatus").textContent =
-   "Firebase save failed: " + error.code;
+   "Firebase error: " + (error.code || error.message);
+
   return false;
  }
 }
 
+// Handle all four answers
 async function respond(answer) {
  if (saving) return;
  saving = true;
@@ -285,56 +308,83 @@ async function respond(answer) {
    title: "You Made Me Happy!",
    message: "Thank you for sharing your answer. Let's take things one step at a time. 💖"
   },
+
   need_time: {
    icon: "🌙",
    title: "Take Your Time",
    message: "That's completely okay. There's no rush or pressure. Take all the time you need. 🤍"
   },
-  no: {
+
+  not_interested_you: {
    icon: "🤍",
    title: "Thank You for Being Honest",
-   message: "That's okay. I respect your feelings and won't pressure you. Take care. 🤍"
+   message: "I understand and respect your feelings. I won't pressure you. Take care. 🤍"
+  },
+
+  not_interested_love: {
+   icon: "💔",
+   title: "I Understand",
+   message: "That's completely okay. I respect your feelings about love and won't pressure you. 🤍"
   }
  };
 
  const selected = messages[answer];
+
  $("resultIcon").textContent = selected.icon;
  $("resultTitle").textContent = selected.title;
  $("resultMessage").textContent = selected.message;
+ $("saveStatus").textContent = "Saving response...";
 
  hideModal("proposalModal");
  showModal("resultModal");
- $("saveStatus").textContent = "";
 
+ // Music for Yes / I Need Time.
+ // Stop music for both Not Interested options.
  if (answer === "yes") {
   await playTrack("yes");
  } else if (answer === "need_time") {
   await playTrack("time");
  } else {
   stopMusic();
+  $("musicStatus").textContent = "Music stopped.";
  }
 
- if (answer !== "no") {
-  $("saveStatus").textContent = "Saving response...";
-  const saved = await saveResponse(answer);
-  if (saved) {
-   $("saveStatus").textContent = "Response saved successfully.";
-  } else {
-   $("saveStatus").textContent =
-    "Couldn't save the response. Check Firebase settings and Console.";
-  }
+ // Save all four answers to Firebase
+ const saved = await saveResponse(answer);
+
+ if (saved) {
+  $("saveStatus").textContent = "Response saved successfully. ❤️";
+ } else {
+  $("saveStatus").textContent =
+   "Couldn't save. Check Firebase settings and Console.";
  }
 
  saving = false;
 }
 
-$("yesButton").addEventListener("click", () => respond("yes"));
-$("timeButton").addEventListener("click", () => respond("need_time"));
-$("noButton").addEventListener("click", () => respond("no"));
+// Button listeners
+$("yesButton").addEventListener("click", () => {
+ respond("yes");
+});
 
+$("timeButton").addEventListener("click", () => {
+ respond("need_time");
+});
+
+$("noButton").addEventListener("click", () => {
+ respond("not_interested_you");
+});
+
+$("loveNoButton").addEventListener("click", () => {
+ respond("not_interested_love");
+});
+
+// Close result
 $("closeButton").addEventListener("click", () => {
  hideModal("resultModal");
 });
 </script>
+
 </body>
 </html>
+```
